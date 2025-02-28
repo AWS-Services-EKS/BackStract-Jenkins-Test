@@ -5,6 +5,7 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
+  serviceAccountName: jenkins-deployer
   containers:
   - name: docker
     image: docker:latest
@@ -31,33 +32,6 @@ spec:
 """
         }
     }
-    // agent any
-    // {
-//         kubernetes {
-//             yaml '''
-// apiVersion: v1
-// kind: Pod
-// metadata:
-//   labels:
-//     app: jenkins-agent
-// spec:
-//   containers:
-//     - name: jnlp
-//       image: jenkins/inbound-agent
-//       args: ["${computer.jnlpmac}", "${computer.name}"]
-//     - name: docker
-//       image: docker:latest
-//       command: [ "sleep", "infinity" ]
-//       volumeMounts:
-//         - name: dockersock
-//           mountPath: /var/run/docker.sock
-//   volumes:
-//     - name: dockersock
-//       hostPath:
-//         path: /var/run/docker.sock
-// '''
-//         }
-//     }
     
     environment {
         AWS_REGION = 'ap-south-1'
