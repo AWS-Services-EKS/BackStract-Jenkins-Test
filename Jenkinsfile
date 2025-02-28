@@ -42,9 +42,11 @@ spec:
 
         stage('Login to AWS ECR') {
             steps {
-                script {
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'backstract-aws-creds']]) {
-                        sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY"
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'backstract-aws-creds'
+                ]]) {
+                    sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY"
                 }
             }
         }
