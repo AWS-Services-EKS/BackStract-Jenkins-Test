@@ -1,20 +1,23 @@
 pipeline {
     agent {
-        kubernetes {
-            cloud 'BackStract-K8s-Cluster'
-            yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: jnlp
-    image: jenkins/inbound-agent:latest
-    command:
-    - cat
-    tty: true
-  """
-        }
+        label 'jenkins-agent'
     }
+//     agent {
+//         kubernetes {
+//             cloud 'BackStract-K8s-Cluster'
+//             yaml """
+// apiVersion: v1
+// kind: Pod
+// spec:
+//   containers:
+//   - name: jnlp
+//     image: jenkins/inbound-agent:latest
+//     command:
+//     - cat
+//     tty: true
+//   """
+//         }
+//     }
 
     environment {
         AWS_REGION = 'ap-south-1'
