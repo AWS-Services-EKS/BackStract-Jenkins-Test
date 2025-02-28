@@ -5,7 +5,7 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
-  serviceAccountName: jenkins-deployer
+  serviceAccountName: jenkins
   containers:
   - name: docker
     image: docker:latest
