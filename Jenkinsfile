@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'jenkins-agent'
+        cloud 'BackStract-K8s-Cluster'
     }
 //     agent {
 //         kubernetes {
