@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            cloud 'kubernetes'
+            cloud 'BackStract-K8s-Cluster'
             yaml """
 apiVersion: v1
 kind: Pod
@@ -15,6 +15,14 @@ spec:
   """
         }
     }
+
+    environment {
+        AWS_REGION = 'ap-south-1'
+        REGISTRY = '216084506783.dkr.ecr.ap-south-1.amazonaws.com'
+        REPOSITORY = 'backstract_apps'
+        IMAGE_TAG = "${env.BUILD_NUMBER}"  // ✅ Fixed missing closing quote
+    }
+
     stages {
         stage('Install Dependencies') {
             steps {
@@ -27,21 +35,14 @@ spec:
                 '''
             }
         }
+
         stage('Check AWS CLI & Docker') {
             steps {
                 sh 'aws --version'
                 sh 'docker --version'
             }
         }
-    }
-    environment {
-        AWS_REGION = 'ap-south-1'
-        REGISTRY = '216084506783.dkr.ecr.ap-south-1.amazonaws.com'
-        REPOSITORY = 'backstract_apps'
-        IMAGE_TAG = "${env.BUILD_NUMBER}"
-    }
 
-    stages {
         stage('Checkout') {
             steps {
                 checkout scm
