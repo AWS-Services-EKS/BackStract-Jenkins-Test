@@ -31,7 +31,7 @@ pipeline {
     stages {
         stage('Check AWS CLI & Docker') {
         steps {
-            sh '/usr/local/bin/aws --version'
+            // sh '/usr/local/bin/aws --version'
             sh 'docker --version'
         }
     }
