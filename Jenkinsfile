@@ -1,38 +1,39 @@
 pipeline {
     agent {
         kubernetes {
+            cloud 'kubernetes'
             yaml """
 apiVersion: v1
 kind: Pod
 spec:
-  serviceAccountName: jenkins
   containers:
-  - name: docker
-    image: docker:latest
+  - name: jnlp
+    image: jenkins/inbound-agent:latest
     command:
     - cat
     tty: true
-    volumeMounts:
-    - mountPath: /var/run/docker.sock
-      name: docker-sock
-  - name: aws
-    image: amazon/aws-cli:latest
-    command:
-    - cat
-    tty: true
-  - name: kubectl
-    image: bitnami/kubectl:1.31.0
-    command:
-    - cat
-    tty: true
-  volumes:
-  - name: docker-sock
-    hostPath:
-      path: /var/run/docker.sock
-"""
+  """
         }
     }
-    
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                apt-get update && apt-get install -y curl unzip docker.io
+                curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                unzip awscliv2.zip
+                ./aws/install
+                rm -rf awscliv2.zip aws
+                '''
+            }
+        }
+        stage('Check AWS CLI & Docker') {
+            steps {
+                sh 'aws --version'
+                sh 'docker --version'
+            }
+        }
+    }
     environment {
         AWS_REGION = 'ap-south-1'
         REGISTRY = '216084506783.dkr.ecr.ap-south-1.amazonaws.com'
