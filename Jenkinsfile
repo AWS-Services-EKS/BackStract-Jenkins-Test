@@ -1,6 +1,8 @@
 pipeline {
     agent {
-        cloud 'BackStract-K8s-Cluster'
+        kubernetes {
+            cloud 'BackStract-K8s-Cluster'
+        }
     }
 //     agent {
 //         kubernetes {
