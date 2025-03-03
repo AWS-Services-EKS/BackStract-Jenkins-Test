@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
             cloud 'BackStract-K8s-Cluster'
-            yaml """
+            yaml '''
 apiVersion: v1
 kind: Pod
 spec:
@@ -18,7 +18,7 @@ spec:
       tty: true
       securityContext:
         privileged: true
-"""
+'''
         }
     }
 
