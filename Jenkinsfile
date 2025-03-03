@@ -29,12 +29,12 @@ pipeline {
     }
 
     stages {
-        stage('Check AWS CLI & Docker') {
-        steps {
-            sh 'aws --version'
-            sh 'docker --version'
-        }
-    }
+    //     stage('Check AWS CLI & Docker') {
+    //     steps {
+    //         sh 'aws --version'
+    //         sh 'docker --version'
+    //     }
+    // }
 
         // stage('Check AWS CLI & Docker') {
         //     steps {
